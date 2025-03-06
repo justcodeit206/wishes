@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishes Display</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/animations.css">
+    <link rel="stylesheet" href="assets/css/content-animations.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <section class="background">
+        <div id="wishesContainer">
+            <p class="content color-change">Xin chân thành cảm ơn cô chú, anh chị và các bạn đã đến chung vui cùng gia đình!</p>
+            <i class="sender color-change">Tên chú rể & Tên cô dâu</i>
+        </div>
+    </section>
+    <div id="backgroundOverlay1" class="background-overlay"></div>
+    <div id="backgroundOverlay2" class="background-overlay"></div>
+</body>
+
+<script>
+  let backgrounds = [
+    'assets/images/bg1.jpg',
+    'assets/images/bg2.jpeg',
+    'assets/images/bg3.jpeg',
+    'assets/images/bg4.jpeg',
+    'assets/images/bg5.jpeg',
+    'assets/images/bg6.jpeg',
+    'assets/images/bg7.jpeg',
+    'assets/images/bg8.jpeg',
+    'assets/images/bg9.jpeg',
+    'assets/images/bg10.jpeg',
+    'assets/images/bg11.jpeg',
+    'assets/images/bg12.jpeg',
+    'assets/images/bg13.jpeg',
+    'assets/images/bg14.jpeg',
+    'assets/images/bg15.jpeg',
+    'assets/images/bg16.jpeg',
+    'assets/images/bg17.jpeg',
+    'assets/images/bg18.jpeg',
+    'assets/images/bg19.jpeg',
+    'assets/images/bg20.jpeg',
+  ];
+
+  let currentIndex = 0;
+  const overlay1 = document.getElementById('backgroundOverlay1');
+  const overlay2 = document.getElementById('backgroundOverlay2');
+
+  // Hàm preload ảnh
+  function preloadImages() {
+    backgrounds.forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
+  }
+
+  function changeBackground() {
+    // Tăng chỉ mục, quay lại 0 nếu vượt quá số lượng hình
+    currentIndex = (currentIndex + 1) % backgrounds.length;
+
+    if (currentIndex === 0) {
+      backgrounds = shuffleArray(backgrounds)
+    }
+
+    // Chọn overlay không active để làm background mới
+    const activeOverlay = overlay1.classList.contains('active') ? overlay2 : overlay1;
+    const inactiveOverlay = activeOverlay === overlay1 ? overlay2 : overlay1;
+
+    // Đặt ảnh mới cho overlay không active
+    activeOverlay.style.backgroundImage = `url('${backgrounds[currentIndex]}')`;
+
+    // Loại bỏ class active khỏi overlay đang active
+    if (inactiveOverlay.classList.contains('active')) {
+      inactiveOverlay.classList.remove('active');
+    }
+
+    // Thêm class active cho overlay mới
+    setTimeout(() => {
+      activeOverlay.classList.add('active');
+    }, 50); // Delay nhỏ để đảm bảo hiệu ứng chuyển đổi
+  }
+
+  // Hàm khởi tạo
+  function init() {
+    // Preload ảnh trước
+    preloadImages();
+
+    // Thay đổi background ban đầu
+    overlay1.style.backgroundImage = `url('${backgrounds[0]}')`;
+    overlay1.classList.add('active');
+
+    // Thay đổi background mỗi 10 giây
+    setInterval(changeBackground, 10000);
+  }
+
+  // Chạy init khi tất cả ảnh đã load
+  window.addEventListener('load', init);
+</script>
+<script src="assets/scripts/app.js"></script>
+</html>
