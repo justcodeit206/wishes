@@ -91,8 +91,11 @@ async function displayWishes() {
     for (let i = 0; i < wishesToDisplay.length; i++) {
         const wish = wishesToDisplay[i];
         const delayTime = wish.content.length > 30 ? 15 : (wish.content.length < 5 ? 5 : wish.content.length / 2);
+        try {
+            handleAppearWishes(wish.name, wish.content)
+        } catch {
 
-        handleAppearWishes(wish.name, wish.content)
+        }
 
         await delay(delayTime * 1000);
     }
